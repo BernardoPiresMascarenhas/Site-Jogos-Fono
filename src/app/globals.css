@@ -1,0 +1,151 @@
+@import "tailwindcss";
+
+/*
+ * TOKENS VISUAIS — Jogos da Ana
+ * Paleta-base extraída do site profissional (fonoanamascarenhas.com.br):
+ *   rosa  #c39eb0 · rosa-claro #f5e9ee · sálvia #a8c4b5 · areia #fbf9f6 · tinta #2d2a32
+ *   tipografia: Fraunces (títulos) + família sem serifa (texto)
+ * As cores complementares (manteiga, céu, pêssego, lilás) foram criadas para
+ * harmonizar com a marca e dar identidade a cada atividade.
+ * Para ajustar a identidade, altere apenas os valores abaixo.
+ */
+@theme {
+  --font-display: var(--font-fraunces), Georgia, serif;
+  --font-sans: var(--font-nunito), system-ui, sans-serif;
+
+  --color-ink: #2d2a32;
+  --color-ink-soft: #5b5662;
+  --color-ink-faint: #8a8490;
+
+  --color-sand-50: #fbf9f6;
+  --color-sand-100: #f7f3ee;
+  --color-sand-200: #efe8df;
+  --color-sand-300: #e2d8cc;
+
+  --color-rose-50: #fbf6f8;
+  --color-rose-100: #f5e9ee;
+  --color-rose-200: #ead2dc;
+  --color-rose-300: #dab5c3;
+  --color-rose-400: #c39eb0;
+  --color-rose-500: #b58a9d;
+  --color-rose-600: #9d6f85;
+  --color-rose-700: #7f5269;
+  --color-rose-800: #633f52;
+
+  --color-sage-50: #f4f7f4;
+  --color-sage-100: #e8efe8;
+  --color-sage-200: #d3e2d8;
+  --color-sage-300: #bdd3c6;
+  --color-sage-400: #a8c4b5;
+  --color-sage-500: #8aab98;
+  --color-sage-600: #5f8a73;
+  --color-sage-700: #47705a;
+  --color-sage-800: #345443;
+
+  --color-butter-100: #fbf0d4;
+  --color-butter-300: #f2d68f;
+  --color-butter-600: #a07a1f;
+  --color-butter-700: #7d5f17;
+
+  --color-sky-100: #e3edf5;
+  --color-sky-300: #b5cde0;
+  --color-sky-600: #4f7896;
+  --color-sky-700: #3d5f78;
+
+  --color-peach-100: #fbe5da;
+  --color-peach-300: #f2b8a0;
+  --color-peach-600: #b06a4f;
+  --color-peach-700: #8d533d;
+
+  --color-lilac-100: #ece6f5;
+  --color-lilac-300: #cbbde3;
+  --color-lilac-600: #7a679e;
+  --color-lilac-700: #5f4f7e;
+
+  --radius-4xl: 2rem;
+  --radius-5xl: 2.5rem;
+
+  --shadow-soft: 0 1px 2px rgb(45 42 50 / 0.04), 0 4px 16px -4px rgb(45 42 50 / 0.08);
+  --shadow-lift: 0 2px 4px rgb(45 42 50 / 0.04), 0 16px 32px -12px rgb(45 42 50 / 0.18);
+  --shadow-press: inset 0 -4px 0 rgb(45 42 50 / 0.08);
+
+  --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@layer base {
+  html {
+    -webkit-tap-highlight-color: transparent;
+    text-rendering: optimizeLegibility;
+  }
+  body {
+    background: var(--color-sand-50);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+  :focus-visible {
+    outline: 3px solid var(--color-rose-600);
+    outline-offset: 3px;
+  }
+  ::selection {
+    background: var(--color-rose-200);
+  }
+  button {
+    cursor: pointer;
+  }
+  button:disabled {
+    cursor: default;
+  }
+}
+
+@utility font-display-soft {
+  font-family: var(--font-display);
+  font-variation-settings: "SOFT" 100, "WONK" 0;
+}
+
+@utility no-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Ponto de textura suave usado nos fundos */
+@utility bg-dots {
+  background-image: radial-gradient(rgb(45 42 50 / 0.07) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
+/* Cartas do jogo da memória (giro 3D) */
+@utility preserve-3d {
+  transform-style: preserve-3d;
+}
+@utility backface-hidden {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+@keyframes gentle-shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+
+@keyframes float-slow {
+  0%, 100% { transform: translateY(0) rotate(var(--r, 0deg)); }
+  50% { transform: translateY(-10px) rotate(var(--r, 0deg)); }
+}
+
+.animate-float-slow {
+  animation: float-slow 6s var(--ease-out-soft) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
