@@ -8,7 +8,7 @@ function toMedia(data: ConceptData): Media {
     return { kind: isSvg ? "svg" : "image", src: data.image, alt, fallbackEmoji: data.emoji };
   }
   if (data.illustration) {
-    return { kind: "svg", src: `/ilustracoes/${data.id}.svg`, alt, fallbackEmoji: data.emoji };
+    return { kind: "image", src: `/ilustracoes/${data.id}.webp`, alt, fallbackEmoji: data.emoji };
   }
   return { kind: "emoji", emoji: data.emoji, alt };
 }

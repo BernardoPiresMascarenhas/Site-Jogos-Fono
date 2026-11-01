@@ -232,7 +232,7 @@ Todo o acervo fica em **`src/content/concept-data.ts`**. Cada linha é um concei
 Depois de adicionar conceitos com `illustration`, gere os arquivos:
 
 ```bash
-npm run ilustracoes      # cria public/ilustracoes/<id>.svg
+npm run ilustracoes      # cria public/ilustracoes/<id>.svg e <id>.webp (o site usa o .webp)
 npm test                 # confere ids, duplicados e imagens existentes
 ```
 
@@ -311,7 +311,7 @@ A biblioteca, os filtros, a rota `/jogar/[slug]` e a proteção de acesso passam
 - **Revogação de sessões**: com sessões JWT, a revogação depende da configuração do servidor. Ao desativar um usuário ou trocar a senha, as sessões dele **só deixam de valer quando o redeploy termina**, e não no instante em que você edita o arquivo local. Para encerrar **todas** as sessões de todos os usuários, troque o `AUTH_SECRET` e faça o redeploy.
 - **Limite de tamanho**: a Vercel limita o total das variáveis de ambiente a cerca de 64 KB por implantação. Cada usuário ocupa aproximadamente 200 bytes em base64, o que comporta algumas centenas de compradores. Acima disso, será preciso um banco de dados.
 - **Rate limiting em memória** não é distribuído (veja a [seção 9](#proteção-contra-tentativas-repetidas-recomendado)).
-- **Recursos estáticos são públicos**: as ilustrações em `/ilustracoes/*.svg` e os arquivos JavaScript/CSS do site podem ser abertos diretamente pela URL, sem login (é assim que todo site funciona). O que fica protegido é a **plataforma**: biblioteca, telas de jogo e a lista de atividades com seu conteúdo, que só é enviada ao navegador de usuários autenticados. **O login não é uma proteção anticópia**: quem tem acesso pode, tecnicamente, salvar o que vê na tela.
+- **Recursos estáticos são públicos**: as ilustrações em `/ilustracoes/*.webp` (e `*.svg`) e os arquivos JavaScript/CSS do site podem ser abertos diretamente pela URL, sem login (é assim que todo site funciona). O que fica protegido é a **plataforma**: biblioteca, telas de jogo e a lista de atividades com seu conteúdo, que só é enviada ao navegador de usuários autenticados. **O login não é uma proteção anticópia**: quem tem acesso pode, tecnicamente, salvar o que vê na tela.
 - **Voz em português**: o botão "Ouvir" usa a síntese de voz do navegador (`SpeechSynthesis`, pt-BR). Alguns dispositivos não têm voz em português. Nesse caso, o botão fica indisponível com uma explicação e a pergunta continua escrita na tela. Para garantir o áudio, grave arquivos e use o campo `audio`.
 - **Compartilhamento de senha**: nada impede tecnicamente que um comprador compartilhe a senha. Se for necessário, uma versão futura com banco de dados pode limitar o número de sessões simultâneas.
 

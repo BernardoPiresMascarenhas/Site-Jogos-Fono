@@ -88,7 +88,7 @@ function FilterGroup({ label, children }: { label: string; children: React.React
   return (
     <div role="group" aria-label={label} className="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-4">
       <span className="w-28 shrink-0 text-xs font-extrabold uppercase tracking-wider text-ink-faint">{label}</span>
-      <div className="no-scrollbar -mx-4 flex gap-2 overflow-x-auto px-4 pb-1 sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0 sm:pb-0">
+      <div className="flex min-w-0 flex-wrap gap-2">
         {children}
       </div>
     </div>
@@ -102,7 +102,7 @@ function Chip({ active, onClick, children }: { active: boolean; onClick: () => v
       onClick={onClick}
       aria-pressed={active}
       className={cn(
-        "inline-flex h-11 shrink-0 items-center gap-2 rounded-full px-4 text-sm font-bold transition",
+        "inline-flex h-11 shrink-0 items-center gap-1.5 rounded-full px-3.5 text-sm font-bold transition sm:gap-2 sm:px-4",
         active
           ? "bg-ink text-white shadow-soft"
           : "bg-white text-ink-soft ring-1 ring-sand-300 hover:text-ink hover:ring-rose-300",

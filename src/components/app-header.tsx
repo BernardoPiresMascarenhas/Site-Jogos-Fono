@@ -6,7 +6,7 @@ import { Logo } from "./logo";
 
 export function AppHeader({ user }: { user: CurrentUser }) {
   return (
-    <header className="sticky top-0 z-30 border-b border-sand-200/80 bg-sand-50/85 backdrop-blur-md">
+    <header className="sticky top-0 z-30 border-b border-sand-200/80 bg-sand-50">
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-5 sm:h-[4.5rem]">
         <Link href="/biblioteca" aria-label="Biblioteca de jogos" className="rounded-xl">
           <Logo size="sm" />
