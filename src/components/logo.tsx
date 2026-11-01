@@ -1,34 +1,67 @@
+import Image from "next/image";
 import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/cn";
+import simbolo from "../../public/marca/simbolo.png";
+import nome from "../../public/marca/logo-nome.png";
+import completa from "../../public/marca/logo-completa.png";
+import compacta from "../../public/marca/logo-compacta.png";
 
-/** Marca: balão de fala (comunicação) com sorriso e uma folha sálvia. */
+/*
+ * Marca Brinque & Descomplique.
+ * Todas as imagens são recortes da logo oficial (public/logo), com o fundo
+ * branco removido por scripts/preparar-logo.py. As letras da logo nunca são
+ * recriadas com fonte. Tamanhos definidos pela ALTURA, com largura automática,
+ * para não distorcer.
+ */
+
+/** Símbolo: as três peças do quebra-cabeça. */
 export function LogoMark({ className }: { className?: string }) {
   return (
-    <svg viewBox="0 0 48 48" aria-hidden="true" className={cn("shrink-0", className)}>
-      <path
-        d="M24 5c10.8 0 19 7.4 19 17s-8.2 17-19 17c-2 0-3.9-.2-5.7-.7L10 42.6c-.9.4-1.8-.4-1.5-1.3l2-6.4C7 31.9 5 27.2 5 22 5 12.4 13.2 5 24 5Z"
-        fill="#c39eb0"
-      />
-      <path
-        d="M24 8c9.4 0 16 6.3 16 14s-6.6 14-16 14c-2 0-4-.3-5.8-.8l-5.6 2.8 1.4-4.5C10.8 30.9 8 26.9 8 22 8 14.3 14.6 8 24 8Z"
-        fill="#d8bcca"
-        opacity=".55"
-      />
-      <circle cx="18.5" cy="20" r="2.3" fill="#2d2a32" />
-      <circle cx="29.5" cy="20" r="2.3" fill="#2d2a32" />
-      <path d="M17.5 26.2c3.6 3.6 9.4 3.6 13 0" fill="none" stroke="#2d2a32" strokeWidth="2.4" strokeLinecap="round" />
-      <path d="M37.5 3.5c3.6.2 6.6 2.9 6.9 6.6-3.7.2-6.8-2.6-6.9-6.6Z" fill="#8aab98" />
-    </svg>
+    <Image
+      src={simbolo}
+      alt=""
+      aria-hidden="true"
+      sizes="96px"
+      className={cn("h-10 w-auto shrink-0 select-none object-contain", className)}
+      draggable={false}
+    />
   );
 }
 
-export function Logo({ className, size = "md" }: { className?: string; size?: "sm" | "md" | "lg" }) {
-  const mark = { sm: "h-8 w-8", md: "h-10 w-10", lg: "h-14 w-14" }[size];
-  const text = { sm: "text-lg", md: "text-xl", lg: "text-3xl" }[size];
+const SIZES = {
+  // cabeçalhos: símbolo + nome lado a lado (a logo inteira ficaria ilegível em 40 px)
+  sm: { mark: "h-7 sm:h-9", name: "h-10 sm:h-12" },
+  md: { mark: "h-8 sm:h-10", name: "h-11 sm:h-14" },
+} as const;
+
+/** Versão horizontal compacta para cabeçalhos. */
+export function Logo({ className, size = "md" }: { className?: string; size?: keyof typeof SIZES }) {
+  const s = SIZES[size];
   return (
-    <span className={cn("inline-flex items-center gap-2.5", className)}>
-      <LogoMark className={mark} />
-      <span className={cn("font-display-soft font-semibold tracking-tight text-ink", text)}>{siteConfig.name}</span>
+    <span className={cn("inline-flex items-center gap-1.5 sm:gap-2", className)}>
+      <LogoMark className={s.mark} />
+      <Image
+        src={nome}
+        alt={siteConfig.name}
+        sizes="(min-width: 640px) 140px, 100px"
+        priority
+        className={cn("w-auto select-none object-contain", s.name)}
+        draggable={false}
+      />
     </span>
+  );
+}
+
+/** Logo completa (com "Recursos Terapêuticos") ou compacta (sem o subtítulo). */
+export function LogoFull({ variant = "completa", className, priority }: { variant?: "completa" | "compacta"; className?: string; priority?: boolean }) {
+  return (
+    <Image
+      src={variant === "completa" ? completa : compacta}
+      alt={variant === "completa" ? `${siteConfig.name} — ${siteConfig.subtitle}` : siteConfig.name}
+      sizes="(min-width: 1024px) 320px, 240px"
+      priority={priority}
+      className={cn("h-auto select-none object-contain", className)}
+      draggable={false}
+    />
   );
 }

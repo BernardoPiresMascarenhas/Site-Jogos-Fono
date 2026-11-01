@@ -12,7 +12,7 @@ import { createRequire } from "node:module";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import sharp from "sharp";
-import { CONCEPT_DATA, UI_ILLUSTRATIONS } from "../src/content/concept-data.ts";
+import { CONCEPT_DATA, PICTURE_DATA, UI_ILLUSTRATIONS } from "../src/content/concept-data.ts";
 
 const require = createRequire(import.meta.url);
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
@@ -33,6 +33,7 @@ const WEBP_SIZE = 512;
 const wanted = new Map<string, string>();
 for (const c of CONCEPT_DATA) if (c.illustration) wanted.set(c.id, c.illustration);
 for (const [file, icon] of Object.entries(UI_ILLUSTRATIONS)) wanted.set(`ui-${file}`, icon);
+for (const p of PICTURE_DATA) if (p.illustration) wanted.set(`cena-${p.id}`, p.illustration);
 
 let missing = 0;
 for (const [file, iconName] of wanted) {

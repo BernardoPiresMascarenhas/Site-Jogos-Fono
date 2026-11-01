@@ -3,7 +3,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
 import { Blob, Sparkle } from "@/components/decor";
-import { Logo } from "@/components/logo";
+import { LogoFull } from "@/components/logo";
 import { Media } from "@/components/media";
 import { siteConfig } from "@/config/site";
 import { getConcept } from "@/content/concepts";
@@ -28,7 +28,7 @@ export default async function LoginPage({ searchParams }: PageProps<"/entrar">) 
         <Blob className="-left-24 -top-24 h-[28rem] w-[28rem]" color="#ead2dc" />
         <Blob className="-bottom-32 -right-24 h-[30rem] w-[30rem]" color="#e8efe8" variant={2} />
         <div className="relative flex h-full flex-col justify-between p-12">
-          <Logo size="md" />
+          <LogoFull className="w-56 xl:w-64" priority />
           <div className="mx-auto grid w-full max-w-sm grid-cols-3 gap-4">
             {art.map((concept, i) => (
               <div
@@ -58,10 +58,10 @@ export default async function LoginPage({ searchParams }: PageProps<"/entrar">) 
             <ArrowLeft className="h-4 w-4" aria-hidden />
             Início
           </Link>
-          <Logo size="sm" className="lg:hidden" />
         </div>
-        <div className="flex flex-1 items-center justify-center py-10">
+        <div className="flex flex-1 items-start justify-center pb-6 pt-2 sm:items-center sm:py-10">
           <div className="w-full max-w-md">
+            <LogoFull variant="compacta" className="mx-auto mb-6 w-40 sm:w-48 lg:hidden" priority />
             <h1 className="font-display-soft text-4xl font-semibold tracking-tight">Que bom ver você!</h1>
             <p className="mt-2 text-ink-soft">Entre com o e-mail e a senha que você recebeu.</p>
             {loggedOut && (
@@ -76,7 +76,7 @@ export default async function LoginPage({ searchParams }: PageProps<"/entrar">) 
                 href={siteConfig.owner.website}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="font-semibold text-rose-700 underline-offset-4 hover:underline"
+                className="font-semibold text-teal-700 underline-offset-4 hover:underline"
               >
                 {siteConfig.owner.name}
               </a>

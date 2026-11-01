@@ -11,7 +11,7 @@ import { ACTIVITIES } from "@/content";
 import { CONCEPTS } from "@/content/concepts";
 import type { Concept } from "@/content/types";
 import { GAME_TYPE_ICON } from "@/games/icons";
-import { GAME_TYPE_META } from "@/games/meta";
+import { GAME_TYPE_META, GAME_TYPES } from "@/games/meta";
 
 const c = (id: string) => getConcept(id) as Concept;
 
@@ -61,9 +61,9 @@ function Hero() {
           </p>
           <h1 className="font-display-soft text-[2.75rem] font-semibold leading-[1.02] tracking-tight text-ink sm:text-6xl lg:text-[4.25rem]">
             Brincar, falar e{" "}
-            <span className="relative inline-block text-rose-700">
+            <span className="relative inline-block text-teal-700">
               aprender
-              <Squiggle className="absolute -bottom-3 left-0 h-4 w-full" color="#a8c4b5" />
+              <Squiggle className="absolute -bottom-3 left-0 h-4 w-full" color="#f6cb4b" />
             </span>{" "}
             juntos.
           </h1>
@@ -89,7 +89,7 @@ function Hero() {
           <dl className="mt-10 flex gap-8 text-sm text-ink-soft">
             <Stat value={String(ACTIVITIES.length)} label="atividades" />
             <Stat value={`${CONCEPTS.length}`} label="palavras e imagens" />
-            <Stat value="3" label="tipos de jogo" />
+            <Stat value={String(GAME_TYPES.length)} label="tipos de jogo" />
           </dl>
         </div>
         <HeroArt />
@@ -184,11 +184,11 @@ function GameTypes() {
       <div className="mx-auto max-w-6xl px-5">
         <div className="max-w-2xl">
           <h2 id="tipos-de-jogo" className="font-display-soft text-3xl font-semibold tracking-tight sm:text-4xl">
-            Três jeitos de brincar
+            {GAME_TYPES.length} jeitos de brincar
           </h2>
           <p className="mt-3 text-lg text-ink-soft">
-            Cada jogo tem atividades prontas em categorias como animais, alimentos, corpo, higiene e objetos — com
-            níveis fácil, médio e difícil.
+            Vocabulário, compreensão, memória, sequências e consciência fonológica — com atividades prontas em
+            categorias como animais, alimentos, corpo, higiene e objetos, nos níveis fácil, médio e difícil.
           </p>
         </div>
         <ul className="mt-10 grid gap-5 md:grid-cols-3">
@@ -204,6 +204,22 @@ function GameTypes() {
                   </h3>
                   <p className="mt-2 leading-relaxed text-ink-soft">{item.text}</p>
                 </div>
+              </li>
+            );
+          })}
+        </ul>
+        <ul className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-5" aria-label="Outros jogos">
+          {GAME_TYPES.filter((t) => !items.some((i) => i.type === t)).map((type) => {
+            const Icon = GAME_TYPE_ICON[type];
+            return (
+              <li key={type} className="flex items-start gap-3 rounded-3xl bg-white p-4 shadow-soft ring-1 ring-sand-200">
+                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-rose-100 text-rose-700">
+                  <Icon className="h-5 w-5" aria-hidden />
+                </span>
+                <span className="min-w-0">
+                  <span className="block font-extrabold leading-snug">{GAME_TYPE_META[type].label}</span>
+                  <span className="block text-sm leading-snug text-ink-soft">{GAME_TYPE_META[type].skill}</span>
+                </span>
               </li>
             );
           })}

@@ -1,13 +1,14 @@
 @import "tailwindcss";
 
 /*
- * TOKENS VISUAIS — Jogos da Ana
- * Paleta-base extraída do site profissional (fonoanamascarenhas.com.br):
- *   rosa  #c39eb0 · rosa-claro #f5e9ee · sálvia #a8c4b5 · areia #fbf9f6 · tinta #2d2a32
- *   tipografia: Fraunces (títulos) + família sem serifa (texto)
- * As cores complementares (manteiga, céu, pêssego, lilás) foram criadas para
- * harmonizar com a marca e dar identidade a cada atividade.
- * Para ajustar a identidade, altere apenas os valores abaixo.
+ * TOKENS VISUAIS — Brinque & Descomplique
+ * Base suave (fundos, cards, ilustrações): rosa, sálvia, areia e os pastéis das
+ * atividades, herdados da primeira versão (site profissional da Ana Luiza).
+ * Cores da marca (medidas na logo oficial, public/logo): turquesa #13a1b7,
+ * coral #e75353, amarelo #f6cb4b, azul-marinho #264493. Elas aparecem em
+ * pontos de destaque: botões principais, foco, seleção, ícones e comemorações.
+ * Tipografia: Fraunces (títulos) + Nunito (texto). A logo é sempre a imagem
+ * original — as letras dela nunca são recriadas com fonte.
  */
 @theme {
   --font-display: var(--font-fraunces), Georgia, serif;
@@ -62,6 +63,28 @@
   --color-lilac-600: #7a679e;
   --color-lilac-700: #5f4f7e;
 
+  /* Marca — turquesa (ação principal) */
+  --color-teal-50: #eef8fa;
+  --color-teal-100: #d5eef2;
+  --color-teal-200: #ade0e8;
+  --color-teal-300: #7fcdda;
+  --color-teal-500: #13a1b7;
+  --color-teal-600: #0e8a9c;
+  --color-teal-700: #0b7383;
+  --color-teal-800: #085a67;
+  /* Marca — coral */
+  --color-coral-100: #fde4e2;
+  --color-coral-500: #e75353;
+  --color-coral-600: #c84141;
+  /* Marca — amarelo */
+  --color-sun-100: #fdf2d0;
+  --color-sun-400: #f6cb4b;
+  --color-sun-600: #b8891c;
+  /* Marca — azul-marinho (seleção) */
+  --color-navy-100: #e3e8f6;
+  --color-navy-600: #264493;
+  --color-navy-700: #1d3577;
+
   --radius-4xl: 2rem;
   --radius-5xl: 2.5rem;
 
@@ -85,11 +108,11 @@
     -webkit-font-smoothing: antialiased;
   }
   :focus-visible {
-    outline: 3px solid var(--color-rose-600);
+    outline: 3px solid var(--color-teal-600);
     outline-offset: 3px;
   }
   ::selection {
-    background: var(--color-rose-200);
+    background: var(--color-teal-100);
   }
   button {
     cursor: pointer;

@@ -3,11 +3,22 @@
  * Altere aqui o nome, textos institucionais e links sem mexer nos componentes.
  */
 export const siteConfig = {
-  name: "Jogos da Ana",
-  shortName: "Jogos da Ana",
+  /** Nome oficial da marca (com "&"; o domínio planejado usa "e"). */
+  name: "Brinque & Descomplique",
+  shortName: "Brinque & Descomplique",
+  /** Subtítulo da marca. */
+  subtitle: "Recursos Terapêuticos",
+  /** Título padrão da aba e do compartilhamento. */
+  title: "Brinque & Descomplique | Jogos Fonoaudiológicos",
   tagline: "Atividades lúdicas para sessões de fonoaudiologia infantil",
   description:
-    "Plataforma de jogos educativos e interativos para apoiar sessões de fonoaudiologia infantil, criada por Ana Luiza Mascarenhas.",
+    "Jogos e recursos terapêuticos interativos para tornar as atividades de fonoaudiologia infantil mais lúdicas e envolventes.",
+  /**
+   * Domínio planejado (ainda não registrado). NÃO é usado como URL canônica.
+   * Quando estiver configurado, defina a variável SITE_URL na Vercel
+   * (ex.: https://brinqueedescomplique.com.br) para os links de compartilhamento.
+   */
+  plannedDomain: "brinqueedescomplique.com.br",
   owner: {
     name: "Ana Luiza Mascarenhas",
     role: "Fonoaudióloga",

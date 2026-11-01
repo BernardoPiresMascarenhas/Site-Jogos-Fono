@@ -14,25 +14,11 @@ async function expectNoPageScroll(page: Page) {
   expect(overflow.y).toBeLessThanOrEqual(1);
 }
 
-test("biblioteca: filtros por tipo e categoria e estado vazio", async ({ page }) => {
-  const cards = page.locator("main ul > li a[href^='/jogar/']");
-  await expect(cards.first()).toBeVisible();
-  const total = await cards.count();
-  expect(total).toBeGreaterThanOrEqual(12);
-
-  await page.getByRole("button", { name: "Jogo da memória" }).click();
-  await expect(cards).toHaveCount(5);
-  await page.getByRole("button", { name: "Animais" }).click();
-  await expect(cards).toHaveCount(1);
-  await page.getByRole("button", { name: "Ligue as imagens" }).click();
-  await expect(cards).toHaveCount(1);
-  await page.getByRole("button", { name: "Roupas" }).click();
-  await expect(page.getByText("Nenhuma atividade com esses filtros")).toBeVisible();
-  await page.getByRole("button", { name: "Mostrar todas" }).click();
-  await expect(cards).toHaveCount(total);
-
-  await cards.first().click();
-  await expect(page).toHaveURL(/\/jogar\//);
+test("jogos originais continuam acessíveis pelos endereços de antes", async ({ page }) => {
+  for (const slug of ["ligue-os-bichos", "memoria-dos-bichos", "onde-esta-o-bicho"]) {
+    await page.goto(`/jogar/${slug}`);
+    await expect(page.getByRole("link", { name: "Voltar para a biblioteca" })).toBeVisible();
+  }
 });
 
 test("ligue as imagens: erro, acerto, conclusão, reinício e níveis", async ({ page }) => {

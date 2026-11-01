@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useReducer } from "react";
-import type { MemoriaActivity, ResolvedActivity } from "@/content/types";
+import type { MemoriaActivity, MemoryMode, ResolvedActivity } from "@/content/types";
 import { useSound } from "@/lib/audio/sound-context";
 import { createRng } from "@/lib/random";
 import { GameShell } from "../shared/game-shell";
@@ -14,10 +14,12 @@ import { MemoryCard } from "./memory-card";
 /** Tempo que duas cartas diferentes ficam visíveis antes de desvirar. */
 const HIDE_DELAY_MS = 1100;
 
-export function MemoriaGame({ activity, seed, controls }: GameProps<ResolvedActivity<MemoriaActivity>>) {
+export function MemoriaGame({ activity, seed, controls, options }: GameProps<ResolvedActivity<MemoriaActivity>>) {
+  // Modo escolhido na configuração; sem escolha, vale o modo da atividade.
+  const mode: MemoryMode = options?.modo === "palavra-imagem" || options?.modo === "imagem-imagem" ? options.modo : activity.mode;
   const deck = useMemo(
-    () => createMemoryDeck(activity.items, controls.difficulty, activity.mode, createRng(seed)),
-    [activity.items, activity.mode, controls.difficulty, seed],
+    () => createMemoryDeck(activity.items, controls.difficulty, mode, createRng(seed)),
+    [activity.items, mode, controls.difficulty, seed],
   );
   const byId = useMemo(() => new Map(deck.concepts.map((c) => [c.id, c])), [deck]);
   const [state, dispatch] = useReducer(memoryReducer, deck.cards, initialMemoryState);
@@ -61,7 +63,7 @@ export function MemoriaGame({ activity, seed, controls }: GameProps<ResolvedActi
   return (
     <GameShell
       title={activity.title}
-      instruction={activity.instruction}
+      instruction={mode === activity.mode ? activity.instruction : "Vire duas cartas e encontre os pares."}
       accent={activity.accent}
       controls={controls}
       progress={{ current: state.matched.length, total, label: `${state.matched.length} de ${total} pares encontrados` }}

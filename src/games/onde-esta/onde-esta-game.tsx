@@ -99,7 +99,7 @@ export function OndeEstaGame({ activity, seed, controls }: GameProps<ResolvedAct
                 disabled={!canSpeak}
                 aria-label="Ouvir a pergunta"
                 title={voiceHint ?? "Ouvir a pergunta"}
-                className="flex h-14 shrink-0 items-center gap-2 rounded-2xl bg-rose-700 px-4 font-bold text-white shadow-[0_5px_0_-1px_var(--color-rose-800)] transition hover:bg-rose-800 active:translate-y-[3px] active:shadow-[0_2px_0_-1px_var(--color-rose-800)] disabled:bg-sand-300 disabled:text-ink-soft disabled:shadow-none sm:h-16 sm:px-5"
+                className="flex h-14 shrink-0 items-center gap-2 rounded-2xl bg-teal-700 px-4 font-bold text-white shadow-[0_5px_0_-1px_var(--color-teal-800)] transition hover:bg-teal-800 active:translate-y-[3px] active:shadow-[0_2px_0_-1px_var(--color-teal-800)] disabled:bg-sand-300 disabled:text-ink-soft disabled:shadow-none sm:h-16 sm:px-5"
               >
                 <Volume2 className="h-6 w-6" aria-hidden />
                 <span className="hidden sm:inline">Ouvir</span>

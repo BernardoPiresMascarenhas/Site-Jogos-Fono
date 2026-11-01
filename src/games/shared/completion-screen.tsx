@@ -8,7 +8,7 @@ import { buttonClasses } from "@/components/button";
 import { Media } from "@/components/media";
 import { uiIllustrationMedia } from "./ui-media";
 
-const CONFETTI = ["#c39eb0", "#a8c4b5", "#f2d68f", "#f2b8a0", "#b5cde0", "#cbbde3"];
+const CONFETTI = ["#13a1b7", "#e75353", "#f6cb4b", "#264493", "#c39eb0", "#a8c4b5"];
 
 export function CompletionScreen({ onPlayAgain, summary }: { onPlayAgain: () => void; summary?: string }) {
   const reduce = useReducedMotion();

@@ -2,7 +2,7 @@
 
 import { motion, useReducedMotion } from "motion/react";
 
-const COLORS = ["#c39eb0", "#a8c4b5", "#f2d68f", "#f2b8a0", "#b5cde0", "#cbbde3"];
+const COLORS = ["#13a1b7", "#e75353", "#f6cb4b", "#c39eb0", "#a8c4b5", "#264493"];
 
 /** Pequena explosão de estrelas para comemorar um acerto. Decorativa. */
 export function Burst({ count = 10, radius = 80, className }: { count?: number; radius?: number; className?: string }) {

@@ -1,10 +1,11 @@
-# Jogos da Ana
+# Brinque & Descomplique — Recursos Terapêuticos
 
-Plataforma web de jogos educativos e interativos para sessões de fonoaudiologia infantil, criada para **Ana Luiza Mascarenhas — Fonoaudióloga**. Acesso privado: cada profissional que compra a plataforma recebe e-mail e senha individuais.
+Plataforma web de jogos educativos e interativos para sessões de fonoaudiologia infantil, de **Ana Luiza Mascarenhas — Fonoaudióloga**. Domínio planejado: `brinqueedescomplique.com.br` (o nome da marca usa "&"; o domínio usa "e"). Acesso privado: cada profissional que compra a plataforma recebe e-mail e senha individuais.
 
-- **3 tipos de jogo**: Ligue as imagens · Jogo da memória · Onde está?
-- **16 atividades** prontas, **79 conceitos** (palavras + imagens) em 7 categorias
-- Níveis **fácil (3) · médio (4) · difícil (6)** em todos os jogos
+- **13 tipos de jogo** em 5 áreas: linguagem e vocabulário, consciência fonológica, compreensão, memória e atenção, sequências e narrativa
+- **150 palavras com imagem**, **67 figuras de cena** e **277 itens** nos bancos dos jogos novos, em pacotes por categoria + "Variadas"
+- Tela **Configurar atividade** antes de jogar: conteúdo, nível (fácil · médio · difícil), opções do jogo e sons
+- Combinações sem conteúdo suficiente ficam desabilitadas, com a explicação
 - Feito para **tablet** primeiro, depois notebook e celular (retrato e paisagem)
 - Login real com Auth.js (Credentials + JWT), senhas com bcrypt, sem banco de dados
 
@@ -23,6 +24,8 @@ Plataforma web de jogos educativos e interativos para sessões de fonoaudiologia
 7. [Desativar um acesso](#7-desativar-um-acesso)
 8. [Configurar a validade de um acesso](#8-configurar-a-validade-de-um-acesso)
 9. [Publicar na Vercel](#9-publicar-na-vercel)
+- [Os 13 jogos](#os-13-jogos)
+- [Áudios](#áudios)
 10. [Adicionar palavras e imagens](#10-adicionar-palavras-e-imagens)
 11. [Criar uma atividade nova](#11-criar-uma-atividade-nova)
 12. [Adicionar um novo tipo de jogo](#12-adicionar-um-novo-tipo-de-jogo)
@@ -210,6 +213,57 @@ A disponibilidade e os limites de rate limiting variam conforme o plano da Verce
 
 O bcrypt (custo 12) também torna cada tentativa lenta de propósito, o que já dificulta ataques de força bruta.
 
+## Os 13 jogos
+
+A biblioteca (`/biblioteca`) mostra um card por jogo. Ao tocar em **Jogar**, abre a tela
+**Configurar atividade** (`/jogos/<tipo>`): escolha o conteúdo, o nível, as opções do jogo e os
+sons, e toque em **Começar a jogar**. Durante a partida, o botão discreto ⚙ (Configurar atividade)
+volta para essa tela com as escolhas atuais. **Reiniciar** sorteia uma partida nova do zero.
+
+| # | Jogo | Como funciona | Opções próprias |
+|---|---|---|---|
+| 1 | **Ligue as imagens** | Toque na palavra e depois na imagem; a ligação fica desenhada. | — |
+| 2 | **Jogo da memória** | Cartas que giram; encontre os pares. | imagem/imagem ou palavra/imagem |
+| 3 | **Onde está?** | Ouça a pergunta e toque na imagem certa. | — |
+| 4 | **Qual é o intruso?** | Toque na imagem que não pertence ao grupo. Após o acerto, **Por quê?** mostra a explicação cadastrada. | — |
+| 5 | **Quem sou eu?** | Pistas reveladas uma a uma (**Mais uma pista**, com limite). Cada pista pode ser ouvida. | — |
+| 6 | **Siga o comando** | Mova objetos da cena (cadeira, caixa, cama) e toque em **Conferir**. Valida a posição final, se algo foi mexido sem necessidade e, nos comandos com antes/depois, a ordem das ações. | tocar e tocar / arrastar ou tocar |
+| 7 | **Coloque na ordem certa** | Toque em duas figuras para trocá-las (ou arraste), **Conferir** marca cada posição. Ao final: descrição e **Contar a história** (só as figuras, para a criança narrar). | — |
+| 8 | **Monte a frase** | Toque nas peças na ordem; toque numa peça colocada para tirá-la; arraste para trocar. Aceita as ordens alternativas cadastradas. | com imagens / só palavras |
+| 9 | **Quantas sílabas?** | Ouça a palavra, escolha a quantidade; depois do acerto, a palavra aparece separada (BA - NA - NA). | — |
+| 10 | **Qual palavra rima?** | Escolha a figura que rima com a palavra do topo; as duas palavras são destacadas. | — |
+| 11 | **Caça ao som inicial** | Marque todas as figuras que começam com o som e toque em **Conferir** (mostra acertos, sobras e faltas). | mostrar/ocultar nomes |
+| 12 | **Escute e escolha** | A profissional toca em **Ver palavra** (discretamente), fala a palavra e a criança escolhe. Com gravações, pode tocar o áudio. | profissional / áudio gravado |
+| 13 | **O que desapareceu?** | Observe, toque em **Estou pronto**, as figuras se escondem e uma some. | avanço manual / 5 s / 10 s |
+
+**Para a profissional:** não há cronômetro competitivo nem pontuação. Erros recebem mensagens
+gentis e permitem tentar de novo. Respostas para condução oral (ex.: palavra-alvo do "Escute e
+escolha") ficam escondidas até a profissional pedir — não existe uma "tela separada": criança e
+profissional olham o mesmo aparelho.
+
+Estrutura dos dados: [`docs/ESTRUTURA-DE-DADOS.md`](docs/ESTRUTURA-DE-DADOS.md).
+Conteúdo que precisa de revisão antes da venda: [`docs/REVISAO-DE-CONTEUDO.md`](docs/REVISAO-DE-CONTEUDO.md).
+
+## Áudios
+
+- **Instruções, pistas e palavras** (Onde está?, Intruso, Quem sou eu?, Sílabas, Rima, Siga o
+  comando): botão **Ouvir** com a voz do navegador em português. Se o aparelho não tiver voz em
+  português, o botão não aparece (o texto está sempre na tela).
+- **Gravações** têm prioridade sobre a voz do navegador. Para cadastrar, coloque o arquivo em
+  `public/audios/palavras/` e informe `audio` na palavra em `src/content/concept-data.ts`:
+
+  ```ts
+  { id: "faca", word: "Faca", ..., audio: "/audios/palavras/faca.mp3" },
+  ```
+
+- **Escute e escolha** só usa gravações (nunca a voz sintética, que varia entre aparelhos). O modo
+  **Áudio gravado** é liberado automaticamente quando pelo menos 3 pares têm gravação de todas as
+  palavras. **Pendência:** ainda não há gravações — o jogo funciona no modo conduzido pela profissional.
+- **Caça ao som inicial** não sintetiza fonemas. Se uma gravação do exemplo for cadastrada, aparece
+  o botão para ouvi-la.
+- **Sons de acerto e conclusão** são gerados no navegador e podem ser desligados (no jogo ou na
+  configuração). Nenhum som toca sem uma ação da pessoa.
+
 ## 10. Adicionar palavras e imagens
 
 Todo o acervo fica em **`src/content/concept-data.ts`**. Cada linha é um conceito:
@@ -223,7 +277,7 @@ Todo o acervo fica em **`src/content/concept-data.ts`**. Cada linha é um concei
 | `id` | identificador único, sem acentos, usado nas atividades |
 | `word` | palavra exibida para a criança |
 | `article` | `o`, `a`, `os` ou `as`, para montar frases como "Onde está **a** girafa?" |
-| `category` | `animais`, `alimentos`, `objetos`, `corpo`, `higiene`, `roupas`, `transportes` |
+| `category` | `animais`, `alimentos`, `objetos`, `corpo`, `higiene`, `roupas`, `transportes`, `natureza`, `profissoes`, `variadas` |
 | `emoji` | versão em emoji, também usada como reserva se a imagem falhar |
 | `illustration` | nome da ilustração no pacote [Fluent Emoji](https://icon-sets.iconify.design/fluent-emoji/) |
 | `image` | *(alternativa)* caminho de uma imagem própria em `public/`, ex.: `"/imagens/girafa.png"` ou `.svg` |
@@ -232,15 +286,52 @@ Todo o acervo fica em **`src/content/concept-data.ts`**. Cada linha é um concei
 Depois de adicionar conceitos com `illustration`, gere os arquivos:
 
 ```bash
-npm run ilustracoes      # cria public/ilustracoes/<id>.svg e <id>.webp (o site usa o .webp)
+npm run ilustracoes      # cria public/ilustracoes/<id>.svg e <id>.webp (o site usa o .webp; as figuras de cena viram cena-<id>.webp)
 npm test                 # confere ids, duplicados e imagens existentes
 ```
+
+**Figuras de cena** (ações e momentos, como "Acordar" ou "Escovar os dentes") ficam em `PICTURE_DATA`, no mesmo arquivo, com `id`, `label`, `emoji` e `illustration` (ou `image`).
+
+**Criar uma categoria nova:** adicione o id em `CategoryId` (`src/content/types.ts`) e o nome em `src/content/categories.ts`. Os pacotes por categoria dos jogos novos são gerados sozinhos quando houver pelo menos 3 itens e um nível jogável.
 
 **Usar ilustrações próprias:** coloque os arquivos em `public/imagens/` e informe `image` no lugar de `illustration`. O componente de mídia (`src/components/media.tsx`) aceita emoji, imagem (PNG/JPG/WebP) e SVG, sempre com descrição acessível (a própria palavra). Para manter a coerência visual, use um mesmo estilo em todo o acervo.
 
 **Licenças:** as ilustrações atuais são do **Fluent Emoji** (Microsoft, licença **MIT**, uso comercial permitido mantendo o aviso em `public/ilustracoes/LICENCA-FLUENT-EMOJI.txt`). Ao usar imagens de terceiros, confirme se a licença permite uso comercial e se não há marca d'água.
 
 ## 11. Criar uma atividade nova
+
+### Jogos 4 a 13 (bancos de questões)
+
+Cada jogo tem um arquivo em `src/content/games/`. Basta adicionar um item; a categoria decide em
+qual pacote ele aparece, e `levels` (opcional) limita os níveis. Exemplos:
+
+```ts
+// Qual é o intruso? — src/content/games/intruso.ts
+{ id: "frutas-bola", category: "alimentos", groupIds: ["maca", "banana", "uva", "pera", "morango"],
+  intruderId: "bola", explanation: "A bola é um brinquedo. Todas as outras imagens são frutas." },
+
+// Quem sou eu? — pistas da mais geral para a mais específica, sem citar a palavra
+{ id: "sapo", category: "animais", answerId: "sapo", levels: ["medio", "dificil"],
+  clues: ["Sou um animal.", "Vivo perto da água.", "Pulo e faço croac!"],
+  distractorIds: ["pato", "peixe", "coelho", "tartaruga", "jacare"] },
+
+// Quantas sílabas? — a separação é sempre escrita à mão
+s("girassol", "gi-ras-sol"),   // precisa existir a palavra "girassol" no acervo
+
+// Qual palavra rima? — cadastre a rima de cada palavra em RHYME_KEYS
+{ id: "pato", targetId: "pato", correctIds: ["gato", "rato"], distractorIds: ["bola", "uva", "sol", "casa", "mao"] },
+
+// Monte a frase — "palavra:imagem"; outras ordens válidas em alternatives
+{ id: "vaca-come", category: "animais", tokens: t("a vaca:vaca come:acao-comer capim") },
+```
+
+Respostas: o jogo sabe a resposta pelo próprio cadastro (`intruderId`, `answerId`, `correctIds`,
+`targetIds`, `goals`, a ordem de `steps`/`tokens`, `syllables`). Não há geração automática durante a partida.
+
+Dificuldade: veja a tabela em [`docs/ESTRUTURA-DE-DADOS.md`](docs/ESTRUTURA-DE-DADOS.md#como-o-nível-funciona-em-cada-jogo).
+Rode `npm test`: o validador confere ids, regras de cada jogo (pista que revela a palavra, distrator que rima, som inicial errado, sílabas que não formam a palavra, comando que já começa resolvido…).
+
+### Jogos 1 a 3 (conjunto de palavras)
 
 As atividades ficam em `src/content/activities/` (um arquivo por tipo de jogo). Basta adicionar um objeto, sem mexer em componentes:
 
@@ -281,13 +372,13 @@ Rode `npm test`: o validador aponta ids inexistentes, slugs repetidos e conjunto
 
 Exemplo: "Complete a palavra".
 
-1. **Tipos**: em `src/content/types.ts`, adicione `"complete"` a `GameType` e crie `interface CompleteActivity extends ActivityBase { type: "complete"; ... }`, incluindo-a na união `Activity`.
-2. **Regras** em `src/games/complete/engine.ts`: funções puras (criar rodada a partir de `items` + `difficulty` + `rng`, e um *reducer* com as jogadas). Teste em `tests/unit/`.
-3. **Tela** em `src/games/complete/complete-game.tsx`: recebe `GameProps` e renderiza dentro de `<GameShell>` (voltar, título, nível, som, reiniciar, progresso, feedback e conclusão já vêm prontos). Reaproveite `useFeedback`, `useFitGrid`, `Burst`, `Media` e `useSound`.
-4. **Registro**: adicione o componente em `src/games/registry.tsx`, o rótulo em `src/games/meta.ts` e o ícone em `src/games/icons.tsx`.
-5. **Conteúdo**: crie `src/content/activities/complete.ts` e inclua em `src/content/index.ts`.
+1. **Tipos** (`src/content/types.ts`): adicione `"complete"` a `GameType`, crie a interface do item (`interface CompleteItem extends BankItemBase { ... }`) e inclua em `BankActivityMap`.
+2. **Conteúdo**: crie `src/content/games/complete.ts` e registre em `BANKS` (`src/content/banks.ts`), dizendo a categoria e as palavras/figuras citadas (`bankCategoryOf`, `bankRefs`). Regras de revisão em `src/content/validate.ts`.
+3. **Regras** em `src/games/complete/engine.ts`: funções puras — `createCompleteRound(activity, difficulty, rng)`, a disponibilidade por nível (`completeAvailability`) e o *reducer* das jogadas (ou reaproveite `choiceReducer` de `shared/bank.ts`). Registre a disponibilidade em `src/games/availability.ts`. Teste em `tests/unit/`.
+4. **Tela** em `src/games/complete/complete-game.tsx`: recebe `GameProps` e usa `<GameShell>` (voltar, título, nível, som, configurar, reiniciar, progresso, feedback e conclusão prontos). Componentes prontos em `shared/ui.tsx`: `PromptCard`, `ListenButton`, `OptionTile`, `ActionBar`, `SuccessBar`, `ProfessionalReveal`; hooks `useRoundFeedback`, `useFitGrid`, `useDragDrop`.
+5. **Registro**: componente em `src/games/registry.tsx`, metadados (nome, área, habilidade, cor, opções) em `src/games/meta.ts`, ícone em `src/games/icons.tsx` e ilustração do card em `COVERS` (`src/content/index.ts`).
 
-A biblioteca, os filtros, a rota `/jogar/[slug]` e a proteção de acesso passam a funcionar para o novo tipo sem outras mudanças.
+A biblioteca, os filtros, a tela de configuração, a rota `/jogar/[slug]` e a proteção de acesso passam a funcionar para o novo tipo sem outras mudanças.
 
 ## 13. Segurança e limitações da primeira versão
 
@@ -296,7 +387,7 @@ A biblioteca, os filtros, a rota `/jogar/[slug]` e a proteção de acesso passam
 - **Login real** com Auth.js v5 (provedor Credentials) e **sessão JWT** em cookie **HttpOnly**, `SameSite=Lax` e `Secure` em HTTPS (prefixo `__Secure-`). Nada sensível vai para `localStorage`.
 - **Senhas com bcrypt** (custo 12). As senhas nunca são guardadas nem registradas em log. Os logs de autenticação não mostram e-mails nem hashes.
 - **Usuários só no servidor**: o `AUTH_USERS_JSON` é lido apenas no servidor e nunca chega ao navegador.
-- **Proteção em duas camadas**: o `proxy` (antigo middleware) valida o cookie (assinatura, expiração e situação atual do usuário) e bloqueia `/biblioteca` e `/jogar/*` antes de renderizar, sem nunca gravar cookies, e cada página revalida a sessão no servidor (`requireUser`). Não depende de redirecionamento no navegador.
+- **Proteção em duas camadas**: o `proxy` (antigo middleware) valida o cookie (assinatura, expiração e situação atual do usuário) e bloqueia `/biblioteca`, `/jogos/*` e `/jogar/*` antes de renderizar, sem nunca gravar cookies, e cada página revalida a sessão no servidor (`requireUser`). Não depende de redirecionamento no navegador.
 - **Revalidação a cada acesso**: a sessão é conferida contra a configuração atual. Usuário removido, desativado, expirado ou com senha trocada perde a sessão imediatamente (depois do redeploy, quando aplicável).
 - **Duração da sessão**: 12 h a partir do login, sem renovação automática (ajustável em `src/config/site.ts`). Depois disso, basta entrar de novo. A renovação automática foi evitada de propósito: ela permitiria que uma requisição em andamento recriasse o cookie logo após o logout.
 - **Mensagens genéricas**: e-mail inexistente, senha errada, conta desativada ou expirada recebem a mesma mensagem, e o tempo de resposta é equivalente (comparação com hash fictício). Isso não revela quais e-mails existem.
@@ -329,8 +420,12 @@ npm run check         # typecheck + lint + testes unitários + build
 Para os testes E2E, instale o navegador uma vez com `npx playwright install chromium`. Eles sobem um servidor de produção na porta 3211 com **usuários temporários de teste** (definidos em `playwright.config.ts`, nunca usados em produção) e verificam em **desktop, tablet (820×1180) e celular (Pixel 7)**:
 
 - **Autenticação**: bloqueio de rotas (inclusive sem seguir redirecionamentos), validação de campos, mostrar/ocultar senha, senha incorreta e e-mail inexistente com a mesma mensagem, usuário desativado, acesso expirado, login, cookie HttpOnly, logout, retorno à página pedida, bloqueio de redirecionamento externo, sessão expirada, token forjado, credencial antiga e bloqueio após tentativas repetidas.
-- **Jogos**: filtros e estado vazio da biblioteca. No "Ligue as imagens": erro, acertos, conclusão, reinício e troca de nível. Na memória: cliques rápidos, pares e conclusão. No "Onde está?": erro gentil, progressão das perguntas e conclusão. Também o controle de som e a página de atividade inexistente.
+- **Biblioteca e configuração**: 13 cards, filtros por tipo e categoria (recolhíveis no celular), estado vazio, categoria filtrada pré-selecionada, níveis e opções indisponíveis desabilitados com explicação, botão de configurações durante o jogo.
+- **Jogos 1–3**: erro, acertos, conclusão, reinício, troca de nível, cliques rápidos (memória), controle de som.
+- **Jogos 4–13**: cada jogo é jogado do início à conclusão pelo navegador, incluindo erro gentil e acerto. Intruso (explicação, reinício), Quem sou eu? (limite de pistas), Siga o comando (toque, lugar errado, duas etapas, recomeçar a cena e arrastar), Ordem (conferir, corrigir, contar a história), Monte a frase (ordem errada, remover, ordem certa), Sílabas (separação exibida), Rima, Som inicial (seleção múltipla e marcas), Escute e escolha (revelação discreta, sem botão de áudio quebrado), Desapareceu (fases, tempo automático, reinício) e cliques rápidos em "Próxima".
 - **Responsividade**: nenhuma tela de jogo rola ou corta conteúdo, em todos os níveis e tamanhos, sem erros no console. Também verifica alvos de toque de pelo menos 44 px.
+
+Testes unitários (`tests/unit/novos-jogos.test.ts` e `content.test.ts`) cobrem as regras de cada motor (sorteio, alternativas, validação, ordem, sílabas, rimas, fonemas, pares mínimos) e todo o acervo em todos os níveis.
 
 ## 15. Estrutura do projeto
 
@@ -340,30 +435,36 @@ src/
     page.tsx                Página pública
     entrar/                 Login (página, formulário, server actions)
     (privado)/biblioteca/   Biblioteca de jogos (protegida)
+    (privado)/jogos/[tipo]/ Configurar atividade (protegida)
     (privado)/jogar/[slug]/ Tela de jogo (protegida)
     api/auth/[...nextauth]/ Endpoints do Auth.js
   auth.ts                   Configuração do Auth.js
   proxy.ts                  Bloqueio das rotas privadas
   config/                   Nome da plataforma, sessão, cores das atividades
-  content/                  CONTEÚDO: conceitos, atividades, tipos e validador
+  content/                  CONTEÚDO: conceitos, figuras, atividades, bancos (games/), tipos e validador
   games/
-    ligar/ memoria/ onde-esta/   engine.ts (regras puras) + tela de cada jogo
-    shared/                 Moldura do jogo, feedback, conclusão, grade adaptativa
+    <tipo>/                 engine.ts (regras puras) + <tipo>-game.tsx (tela), um por jogo
+    shared/                 Moldura, feedback, conclusão, grade adaptativa, ui.tsx, arrastar-e-soltar
+    meta.ts                 Nome, área, habilidade, cor e opções de cada jogo
+    availability.ts         Mínimo de conteúdo por nível
     registry.tsx            Tipo de jogo → componente
-  components/               Componentes compartilhados (mídia, botões, logo, biblioteca)
+  components/               Componentes compartilhados (mídia, botões, logo, biblioteca, configuração)
   lib/auth/                 Usuários, senhas, política de sessão, limitador
   lib/audio/                Sons (Web Audio) e leitura em voz alta
 scripts/                    Ferramenta de administração e gerador de ilustrações
 tests/unit/                 Vitest
 tests/e2e/                  Playwright
+docs/                       Estrutura de dados e lista de revisão do conteúdo
 public/ilustracoes/         Ilustrações (Fluent Emoji, MIT)
 ```
 
 ## 16. Identidade visual
 
-A paleta e as fontes foram extraídas do CSS do site profissional ([fonoanamascarenhas.com.br](https://www.fonoanamascarenhas.com.br/)): rosa `#c39eb0`, rosa-claro `#f5e9ee`, sálvia `#a8c4b5`, areia `#fbf9f6`, tinta `#2d2a32` e a fonte **Fraunces** nos títulos. As cores complementares das atividades (manteiga, céu, pêssego, lilás) e a fonte de texto **Nunito**, mais arredondada e legível para crianças, foram escolhidas para harmonizar com a marca.
+A base suave da paleta e as fontes vieram do CSS do site profissional ([fonoanamascarenhas.com.br](https://www.fonoanamascarenhas.com.br/)): rosa `#c39eb0`, rosa-claro `#f5e9ee`, sálvia `#a8c4b5`, areia `#fbf9f6`, tinta `#2d2a32` e a fonte **Fraunces** nos títulos. As cores complementares das atividades (manteiga, céu, pêssego, lilás) e a fonte de texto **Nunito**, mais arredondada e legível para crianças, foram escolhidas para harmonizar com a marca.
 
 - **Tokens de cor e fonte**: `src/app/globals.css` (bloco `@theme`).
 - **Nome da plataforma, textos e links**: `src/config/site.ts` (`name`, `owner`, `gameTextCase` para letra bastão nos jogos, duração da sessão).
 - **Cores por atividade**: `src/config/accents.ts`.
-- **Logotipo** (balão de fala): `src/components/logo.tsx` e `src/app/icon.svg`.
+- **Logotipo**: a logo oficial fica em `public/logo/brinque-descomplique-original.jpeg`. As versões derivadas (fundo transparente, compacta, só o nome, só as peças, favicon e imagem de compartilhamento) são geradas por `python3 scripts/preparar-logo.py` (Pillow, numpy e scipy) em `public/marca/` e `src/app/` (`icon.png`, `apple-icon.png`, `favicon.ico`, `opengraph-image.png`). O script só remove o fundo, recorta e redimensiona: a arte nunca é redesenhada. Uso nos componentes: `src/components/logo.tsx` (`Logo` no cabeçalho, `LogoFull` no login, `LogoMark` com as peças).
+- **Cores da marca** (medidas na logo): turquesa `#13a1b7`, coral `#e75353`, amarelo `#f6cb4b`, azul-marinho `#264493`. Ficam em `globals.css` como `teal-*`, `coral-*`, `sun-*` e `navy-*`, usadas em botões principais, foco, seleção, ícones e comemorações. Os fundos e cards continuam nos tons suaves.
+- **Domínio e compartilhamento**: quando o domínio estiver registrado, defina `SITE_URL` (ex.: `https://brinqueedescomplique.com.br`) na Vercel para que os links de compartilhamento usem o endereço oficial. Até lá, nenhuma URL canônica é fixada.

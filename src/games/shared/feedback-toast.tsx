@@ -6,13 +6,13 @@ import { cn } from "@/lib/cn";
 import type { Feedback } from "./use-feedback";
 
 /** Mensagem flutuante (não desloca o layout) + anúncio para leitores de tela. */
-export function FeedbackToast({ feedback }: { feedback: Feedback | null }) {
+export function FeedbackToast({ feedback, raised = false }: { feedback: Feedback | null; raised?: boolean }) {
   return (
     <>
       <div className="sr-only" aria-live="polite" aria-atomic="true">
         {feedback?.message}
       </div>
-      <div className="pointer-events-none absolute inset-x-0 bottom-4 z-30 flex justify-center px-4 sm:bottom-6">
+      <div className={cn("pointer-events-none absolute inset-x-0 z-30 flex justify-center px-4", raised ? "bottom-24 sm:bottom-28" : "bottom-4 sm:bottom-6")}>
         <AnimatePresence mode="wait">
           {feedback && (
             <motion.div

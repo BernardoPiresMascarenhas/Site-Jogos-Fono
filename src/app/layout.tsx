@@ -17,11 +17,23 @@ const nunito = Nunito({
   display: "swap",
 });
 
+/** Só usa um endereço absoluto se SITE_URL estiver configurada (domínio ainda não registrado). */
+const siteUrl = process.env.SITE_URL;
+
 export const metadata: Metadata = {
-  title: { default: siteConfig.name, template: `%s · ${siteConfig.name}` },
+  ...(siteUrl ? { metadataBase: new URL(siteUrl) } : {}),
+  title: { default: siteConfig.title, template: `%s | ${siteConfig.name}` },
   description: siteConfig.description,
   applicationName: siteConfig.name,
   robots: { index: true, follow: true },
+  openGraph: {
+    type: "website",
+    locale: "pt_BR",
+    siteName: siteConfig.name,
+    title: siteConfig.title,
+    description: siteConfig.description,
+  },
+  twitter: { card: "summary_large_image", title: siteConfig.title, description: siteConfig.description },
 };
 
 export const viewport: Viewport = {
