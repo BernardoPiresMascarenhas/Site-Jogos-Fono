@@ -86,7 +86,7 @@ export function GameShell({
         </IconButton>
       </header>
 
-      <div className="relative z-10 flex shrink-0 flex-wrap items-center justify-between gap-x-4 gap-y-2 px-4 pb-2 sm:px-6 sm:pb-3">
+      <div className="relative z-20 flex shrink-0 flex-wrap items-center justify-between gap-x-4 gap-y-2 px-4 pb-2 sm:px-6 sm:pb-3">
         <p className="text-base font-bold text-ink-soft sm:text-lg">{instruction}</p>
         <div className="flex items-center gap-3">
           {tools}

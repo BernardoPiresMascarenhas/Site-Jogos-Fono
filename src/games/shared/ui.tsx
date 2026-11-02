@@ -275,7 +275,7 @@ export function ProfessionalReveal({ label, children, resetKey }: { label: strin
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -4, scale: 0.97 }}
             transition={{ duration: 0.18 }}
-            className="absolute right-0 top-[calc(100%+0.5rem)] z-30 min-w-[13rem] rounded-2xl bg-ink px-4 py-3 text-white shadow-lift"
+            className="fixed inset-x-4 z-30 mt-2 sm:absolute sm:inset-x-auto sm:right-0 sm:top-full sm:min-w-[13rem] rounded-2xl bg-ink px-4 py-3 text-white shadow-lift"
             role="note"
           >
             {children}
